@@ -1,0 +1,121 @@
+<div>
+    <button class="btn btn_add" (click)="openModal()">
+        Adicionar Usuário
+    </button>
+
+    <div class="responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Email</th>
+                    <th>Nascimento</th>
+                    <th>Escolaridade</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(user of users; track user.id){
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.birthdate | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ user.schooling }}</td>
+                    <td>
+                        <button class="btn btn_edit" (click)="openModal(user)">
+                            <ng-icon name="lucidePen"></ng-icon>
+                        </button>
+                        <button class="btn btn_remove" (click)="deleteUser(user.id)">
+                            <ng-icon name="lucideTrash"></ng-icon>
+                        </button>
+                    </td>
+                </tr>
+                }
+        
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (isModalOpen) {
+    <div class="overlay">
+        <div class="modal">
+            <div class="modal_header">
+                <h2>{{ editingUser?.id ? 'Editar Usuário' : 'Adicionar Usuário' }}</h2>
+            
+                <button>
+                    <ng-icon name="lucideX" (click)="closeModal()"/>
+                </button>
+            </div>
+            
+            <div class="modal_content">
+                <form (ngSubmit)="saveUser()">
+                    <div class="modal_content_divider">
+                        <label class="modal_labels">
+                            Nome:
+                            <input 
+                                class="modal_inputs" 
+                                type="text" 
+                                [(ngModel)]="editingUser.name" 
+                                name="name" 
+                                required 
+                            />
+                        </label>
+            
+                        <label class="modal_labels">
+                            Sobrenome:
+                            <input 
+                                class="modal_inputs" 
+                                type="email" 
+                                [(ngModel)]="editingUser.lastName" 
+                                name="lastName" 
+                                required 
+                            />
+                        </label>
+                    </div>
+            
+                    <label class="modal_labels">
+                        Email:
+                            <input 
+                            class="modal_inputs" 
+                            type="email" 
+                            [(ngModel)]="editingUser.email" 
+                            name="email" 
+                            required 
+                        />
+                    </label>
+            
+                    <div class="modal_content_divider">
+                        <label class="modal_labels">
+                            Nascimento:
+                            <input 
+                                class="modal_inputs" 
+                                type="date" 
+                                [(ngModel)]="editingUser.birthdate" 
+                                name="birthdate"
+                                required 
+                            />
+                        </label>
+            
+                        <label class="modal_labels">
+                            Escolaridade:
+                            <select [(ngModel)]="editingUser.schooling" class="modal_inputs" name="schooling">
+                                <option value="Ensino Infantil">Ensino Infantil</option>
+                                <option value="Ensino Fundamental">Ensino Fundamental</option>
+                                <option value="Ensino Médio">Ensino Médio</option>
+                                <option value="Ensino Superior">Ensino Superior</option>
+                            </select>
+                        </label>
+                    </div>
+            
+                    <button class="btn btn_submit" type="submit">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
