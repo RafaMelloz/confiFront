@@ -5,6 +5,14 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePen, lucideTrash, lucideX } from '@ng-icons/lucide';
 import { UserService } from '../../services/user.service'; 
 
+interface User {
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+  birthDate: Date;
+  schooling: string;
+}
 @Component({
   selector: 'table-users',
   standalone: true,
@@ -14,7 +22,7 @@ import { UserService } from '../../services/user.service';
   viewProviders: [provideIcons({ lucidePen, lucideTrash, lucideX })], 
 })
 export class TableUsersComponent {
-  users: any[] = [];
+  users: User[] = [];
   isModalOpen = false;
   editingUser: any = null;
 
